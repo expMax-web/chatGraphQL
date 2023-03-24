@@ -1,7 +1,13 @@
+import { Chat } from "./components/Chat";
+import { Sidebar } from "./components/Sidebar";
+
+import styles from "./styles.module.css";
+
 export const App = () => {
   return (
-    <div>
-      <header>Здарова!</header>
+    <div className={styles.App}>
+      <Sidebar />
+      <Chat />
     </div>
   );
 };
