@@ -1,25 +1,21 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
-import { DEFAULT_FORM_VALUES } from "./constants";
-import { ChatFormValues } from "./types";
+import { ChatFormValues } from "../types";
 
 import styles from './styles.module.css'
+
 
 const { TextArea } = Input;
 
 export const MessageWorkspace = () => {
 
-    const { handleSubmit, control, watch } = useForm<ChatFormValues>({
-        defaultValues: DEFAULT_FORM_VALUES
-    })
+    const { handleSubmit, control } = useFormContext<ChatFormValues>()
 
     const sendMessage = (data: ChatFormValues) => {
         // отправить мутацию на сервер, чтобы записать сообщение
         console.log(data);
     }
-
-    console.log(watch("nickName"));
 
 
     return (<form className={styles.Workspace}>
