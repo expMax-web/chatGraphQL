@@ -6,14 +6,18 @@ type Message {
   content: String
 }
 
-type CreateMessageOutput {
+type CreateMessage {
   result: String
   description: String
 }
 
-type CreateMessageVariables {
+input CreateMessageInput {
   author: String
   content: String
+}
+
+input CreateMessageVariables {
+  request: CreateMessageInput
 }
 
 type Query {
@@ -25,6 +29,6 @@ type Subscription {
 }
 
 type Mutation {
-  createMessage(author: String, content: String): CreateMessageOutput
+  createMessage(request: CreateMessageInput): CreateMessage
 }
 `;

@@ -2,9 +2,9 @@ import { Controller, useFormContext } from "react-hook-form";
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import { ChatFormValues } from "../types";
+import { useCreateMessage } from "../../../graphql/hooks";
 
 import styles from './styles.module.css'
-
 
 const { TextArea } = Input;
 
@@ -12,9 +12,28 @@ export const MessageWorkspace = () => {
 
     const { handleSubmit, control } = useFormContext<ChatFormValues>()
 
-    const sendMessage = (data: ChatFormValues) => {
-        // отправить мутацию на сервер, чтобы записать сообщение
-        console.log(data);
+    const [createMessage] = useCreateMessage()
+
+    const sendMessage = async (data: ChatFormValues) => {
+
+        if (!data.nickName || !data.message) {
+            //Предупредить об ошибке
+
+            return
+        }
+
+        const createMessageResult = await createMessage({
+            variables: {
+                request: {
+                    author: data.nickName,
+                    content: data.message
+                }
+            }
+        })
+
+
+        // Обработка ошибки
+        console.log(createMessageResult.data?.result);
     }
 
 

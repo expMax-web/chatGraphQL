@@ -1,24 +1,19 @@
 import { PubSub } from "graphql-subscriptions";
 
-type Message = {
-  author: string;
-  content: string;
-};
-
-const messages: Message[] = [];
+import { ALL_MESSAGES } from "../data/messages.js";
+import {
+  CreateMessageOutput,
+  CreateMessageVariables,
+  MutationRequest,
+} from "./types.js";
 
 const pubsub = new PubSub();
 
 pubsub.asyncIterator(["SEND_MESSAGE", "CREATE_MESSAGE"]);
 
-type CreateMessageVariables = {
-  author: String;
-  content: String;
-};
-
 export const resolvers = {
   Query: {
-    getAllMessages: () => messages,
+    getAllMessages: () => ALL_MESSAGES,
   },
   // Subscription: {
   //   sendMessage: {
@@ -31,12 +26,34 @@ export const resolvers = {
   // },
 
   Mutation: {
-    createMessage(parent, args: CreateMessageVariables, { postController }) {
+    createMessage(
+      _,
+      args: MutationRequest<CreateMessageVariables>
+    ): CreateMessageOutput {
       pubsub.publish("CREATE_MESSAGE", { messageCreated: args });
 
-      messages.push();
+      console.log(args);
 
-      return postController.createPost(args);
+      if (!args.request.author) {
+        return {
+          description: "Необходимо указать автора сообщения",
+          result: "Error",
+        };
+      }
+
+      if (!args.request.content) {
+        return {
+          description: "Ошибка при создании пустого сообщения",
+          result: "Error",
+        };
+      }
+
+      ALL_MESSAGES.push(args.request);
+
+      return {
+        description: "Сообщение успешно отправлено",
+        result: "Ok",
+      };
     },
   },
 };

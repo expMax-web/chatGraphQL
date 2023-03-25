@@ -12,16 +12,19 @@ export type Scalars = {
   Float: number;
 };
 
-export type CreateMessageOutput = {
-  __typename?: 'CreateMessageOutput';
+export type CreateMessage = {
+  __typename?: 'CreateMessage';
   description?: Maybe<Scalars['String']>;
   result?: Maybe<Scalars['String']>;
 };
 
+export type CreateMessageInput = {
+  author?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateMessageVariables = {
-  __typename?: 'CreateMessageVariables';
-  author?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
+  request?: InputMaybe<CreateMessageInput>;
 };
 
 export type Message = {
@@ -32,13 +35,12 @@ export type Message = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createMessage?: Maybe<CreateMessageOutput>;
+  createMessage?: Maybe<CreateMessage>;
 };
 
 
 export type MutationCreateMessageArgs = {
-  author?: InputMaybe<Scalars['String']>;
-  content?: InputMaybe<Scalars['String']>;
+  request?: InputMaybe<CreateMessageInput>;
 };
 
 export type Query = {
