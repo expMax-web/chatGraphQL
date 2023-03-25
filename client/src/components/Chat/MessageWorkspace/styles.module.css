@@ -1,0 +1,19 @@
+.Workspace {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  gap: 20px;
+  padding-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.NickNameInput {
+  width: 20%;
+}
+
+.TextArea {
+  width: 50%;
+}
