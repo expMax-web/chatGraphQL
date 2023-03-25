@@ -1,15 +1,11 @@
 import { PubSub } from "graphql-subscriptions";
 
-const books = [
-  {
-    title: "The Awakening",
-    author: "Kate Chopin",
-  },
-  {
-    title: "City of Glass",
-    author: "Paul Auster",
-  },
-];
+type Message = {
+  author: string;
+  content: string;
+};
+
+const messages: Message[] = [];
 
 const pubsub = new PubSub();
 
@@ -17,29 +13,24 @@ pubsub.asyncIterator(["SEND_MESSAGE", "CREATE_MESSAGE"]);
 
 export const resolvers = {
   Query: {
-    books: () => books,
+    getAllMessages: () => messages,
   },
-  Subscription: {
-    hello: {
-      // Example using an async generator
-      subscribe: async function* () {
-        for await (const word of ["Hello", "Bonjour", "Ciao"]) {
-          yield { hello: word };
-        }
-      },
-    },
-    sendMessage: {
-      // More on pubsub below
-      subscribe: () => pubsub.asyncIterator(["SEND_MESSAGE"]),
-    },
-    messageCreated: {
-      subscribe: () => pubsub.asyncIterator(["CREATE_MESSAGE"]),
-    },
-  },
+  // Subscription: {
+  //   sendMessage: {
+  //     // More on pubsub below
+  //     subscribe: () => pubsub.asyncIterator(["SEND_MESSAGE"]),
+  //   },
+  //   messageCreated: {
+  //     subscribe: () => pubsub.asyncIterator(["CREATE_MESSAGE"]),
+  //   },
+  // },
 
   Mutation: {
-    createMessage(parent, args, { postController }) {
+    createMessage(_, args, { postController }) {
       pubsub.publish("CREATE_MESSAGE", { messageCreated: args });
+
+      messages.push();
+
       return postController.createPost(args);
     },
   },
