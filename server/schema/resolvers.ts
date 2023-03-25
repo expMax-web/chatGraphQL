@@ -11,6 +11,11 @@ const pubsub = new PubSub();
 
 pubsub.asyncIterator(["SEND_MESSAGE", "CREATE_MESSAGE"]);
 
+type CreateMessageVariables = {
+  author: String;
+  content: String;
+};
+
 export const resolvers = {
   Query: {
     getAllMessages: () => messages,
@@ -26,7 +31,7 @@ export const resolvers = {
   // },
 
   Mutation: {
-    createMessage(_, args, { postController }) {
+    createMessage(parent, args: CreateMessageVariables, { postController }) {
       pubsub.publish("CREATE_MESSAGE", { messageCreated: args });
 
       messages.push();

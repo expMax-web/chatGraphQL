@@ -6,9 +6,14 @@ type Message {
   content: String
 }
 
-type MutationResult {
+type CreateMessageOutput {
   result: String
   description: String
+}
+
+type CreateMessageVariables {
+  author: String
+  content: String
 }
 
 type Query {
@@ -20,6 +25,6 @@ type Subscription {
 }
 
 type Mutation {
-  createMessage(author: String, content: String): MutationResult
+  createMessage(author: String, content: String): CreateMessageOutput
 }
 `;
