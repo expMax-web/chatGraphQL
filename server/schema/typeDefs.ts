@@ -23,4 +23,7 @@ type Subscription {
   sendMessage: Message
 }
 
+type Mutation {
+  createMessage(author: String, content: String): Message
+}
 `;

@@ -2,36 +2,50 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import express from "express";
-import http from "http";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { typeDefs, resolvers } from "./schema/index.js";
-
-interface Context {
-  token?: String;
-}
+import { createServer } from "http";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { WebSocketServer } from "ws";
+import { useServer } from "graphql-ws/lib/use/ws";
 
 const app = express();
 
-const httpServer = http.createServer(app);
+const httpServer = createServer(app);
 
-const server = new ApolloServer<Context>({
-  typeDefs,
-  resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+const server = new ApolloServer({
+  schema,
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup.dispose();
+          },
+        };
+      },
+    },
+  ],
 });
+
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: "/graphql",
+});
+
+const serverCleanup = useServer({ schema }, wsServer);
 
 await server.start();
 
 app.use(
-  "/",
+  "/graphql",
   cors<cors.CorsRequest>(),
   bodyParser.json(),
-  // expressMiddleware accepts the same arguments:
-  // an Apollo Server instance and optional configuration options
-  expressMiddleware(server, {
-    context: async ({ req }) => ({ token: req.headers.token }),
-  })
+  expressMiddleware(server)
 );
 
 await new Promise<void>((resolve) =>
