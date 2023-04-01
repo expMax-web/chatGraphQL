@@ -15,22 +15,34 @@ export type Scalars = {
 export type CreateMessage = {
   __typename?: 'CreateMessage';
   description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   result?: Maybe<Scalars['String']>;
 };
 
 export type CreateMessageInput = {
-  author?: InputMaybe<Scalars['String']>;
-  content?: InputMaybe<Scalars['String']>;
+  content: Scalars['String'];
+  user: Scalars['String'];
 };
 
 export type CreateMessageVariables = {
   request?: InputMaybe<CreateMessageInput>;
 };
 
+export type GetMessages = {
+  __typename?: 'GetMessages';
+  messages?: Maybe<Array<Message>>;
+};
+
+export type GetMessagesQuery = {
+  __typename?: 'GetMessagesQuery';
+  getMessages?: Maybe<GetMessages>;
+};
+
 export type Message = {
   __typename?: 'Message';
-  author?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  id: Scalars['ID'];
+  user: Scalars['String'];
 };
 
 export type Mutation = {
@@ -45,7 +57,7 @@ export type MutationCreateMessageArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getAllMessages?: Maybe<Array<Maybe<Message>>>;
+  getMessages?: Maybe<GetMessages>;
 };
 
 export type Subscription = {

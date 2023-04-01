@@ -1,13 +1,16 @@
+import { ID } from "graphql-ws";
+
 export type MutationRequest<T> = {
   request: T;
 };
 
 export type CreateMessageOutput = {
-  result: String;
-  description: String;
+  result: string;
+  description: string;
+  id?: ID;
 };
 
 export type CreateMessageVariables = {
-  author: string;
+  user: string;
   content: string;
 };

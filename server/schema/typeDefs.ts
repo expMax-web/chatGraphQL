@@ -2,18 +2,28 @@ export const typeDefs = `#graphql
 # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
 type Message {
-  author: String
-  content: String
+  id: ID!
+  user: String!
+  content: String!
 }
 
 type CreateMessage {
   result: String
+  id: ID!
   description: String
 }
 
+type GetMessages {
+  messages: [Message!]
+}
+
+type GetMessagesQuery {
+  getMessages: GetMessages
+}
+
 input CreateMessageInput {
-  author: String
-  content: String
+  user: String!
+  content: String!
 }
 
 input CreateMessageVariables {
@@ -21,7 +31,7 @@ input CreateMessageVariables {
 }
 
 type Query {
-  getAllMessages: [Message]
+  getMessages: GetMessages
 }
 
 type Subscription {

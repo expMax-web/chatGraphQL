@@ -1,4 +1,5 @@
 import { PubSub } from "graphql-subscriptions";
+import { v4 as uuidv4 } from "uuid";
 
 import { ALL_MESSAGES } from "../data/messages.js";
 import {
@@ -13,7 +14,9 @@ pubsub.asyncIterator(["SEND_MESSAGE", "CREATE_MESSAGE"]);
 
 export const resolvers = {
   Query: {
-    getAllMessages: () => ALL_MESSAGES,
+    getMessages: () => {
+      return { messages: ALL_MESSAGES };
+    },
   },
   // Subscription: {
   //   sendMessage: {
@@ -32,9 +35,7 @@ export const resolvers = {
     ): CreateMessageOutput {
       pubsub.publish("CREATE_MESSAGE", { messageCreated: args });
 
-      console.log(args);
-
-      if (!args.request.author) {
+      if (!args.request.user) {
         return {
           description: "Необходимо указать автора сообщения",
           result: "Error",
@@ -48,11 +49,18 @@ export const resolvers = {
         };
       }
 
-      ALL_MESSAGES.push(args.request);
+      const id = uuidv4();
+
+      ALL_MESSAGES.push({
+        content: args.request.content,
+        id,
+        user: args.request.user,
+      });
 
       return {
         description: "Сообщение успешно отправлено",
         result: "Ok",
+        id,
       };
     },
   },

@@ -25,7 +25,7 @@ export const MessageWorkspace = () => {
         const createMessageResult = await createMessage({
             variables: {
                 request: {
-                    author: data.nickName,
+                    user: data.nickName,
                     content: data.message
                 }
             }

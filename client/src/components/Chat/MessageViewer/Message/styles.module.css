@@ -1,0 +1,22 @@
+.Container {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.UserMessageContainer {
+  justify-content: flex-end;
+}
+
+.Message {
+  padding: 12px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.UserMessage {
+  background-color: rgb(81, 163, 95);
+}
+.UserMessageContent {
+  color: rgb(255, 241, 241);
+}
