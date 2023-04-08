@@ -29,11 +29,11 @@ export const MessageWorkspace = () => {
                     content: data.message
                 }
             }
-        })
+        }) as any
 
 
         // Обработка ошибки
-        console.log(createMessageResult.data?.result);
+        console.log(createMessageResult.data?.createMessage.result);
     }
 
 

@@ -20,7 +20,7 @@ export const resolvers = {
     },
   },
   Subscription: {
-    messages: {
+    getMessages: {
       subscribe: () => pubsub.asyncIterator(["CREATE_MESSAGE"]),
     },
   },
@@ -55,7 +55,9 @@ export const resolvers = {
       ALL_MESSAGES.push(message);
 
       pubsub.publish("CREATE_MESSAGE", {
-        messages: ALL_MESSAGES,
+        getMessages: {
+          messages: ALL_MESSAGES,
+        },
       });
 
       return {

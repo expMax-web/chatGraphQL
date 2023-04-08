@@ -35,7 +35,7 @@ type Query {
 }
 
 type Subscription {
-  messages: [Message!]
+  getMessages: GetMessages
 }
 
 type Mutation {

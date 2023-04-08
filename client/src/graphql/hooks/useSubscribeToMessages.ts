@@ -10,12 +10,12 @@ type UseGetAllMessageResult = {
 };
 
 export const useSubscribeToMessages = (): UseGetAllMessageResult => {
-  const { data, loading, error } = useSubscription<Array<Message>>(
-    SUBSCRIBE_TO_MESSAGES,
-  );
+  const { data, loading, error } = useSubscription<{
+    messages: Array<Message>;
+  }>(SUBSCRIBE_TO_MESSAGES);
 
   return {
-    data: data || [],
+    data: data?.messages || [],
     loading,
     error: error || null,
   };

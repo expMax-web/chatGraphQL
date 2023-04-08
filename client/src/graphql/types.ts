@@ -62,5 +62,5 @@ export type Query = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  messages?: Maybe<Array<Message>>;
+  getMessages?: Maybe<GetMessages>;
 };

@@ -1,16 +1,16 @@
-import { split, HttpLink } from "@apollo/client";
-import { getMainDefinition } from "@apollo/client/utilities";
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { createClient } from "graphql-ws";
+import { split, HttpLink } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:3001/graphql",
+  uri: 'http://localhost:3001/graphql',
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "ws://localhost:3001/subscriptions",
-  })
+    url: 'ws://localhost:3001/graphql',
+  }),
 );
 
 // The split function takes three parameters:
@@ -22,10 +22,10 @@ export const apolloLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
     return (
-      definition.kind === "OperationDefinition" &&
-      definition.operation === "subscription"
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
     );
   },
   wsLink,
-  httpLink
+  httpLink,
 );
