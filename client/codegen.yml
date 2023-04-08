@@ -1,0 +1,12 @@
+overwrite: true
+schema: 'http://localhost:3001/graphql'
+documents:
+  - 'src/**/*.ts'
+  - 'src/**/*.tsx'
+generates:
+  src/graphql/types.ts:
+    plugins:
+      - 'typescript'
+    hooks:
+      - prettier --write
+      - eslint --fix

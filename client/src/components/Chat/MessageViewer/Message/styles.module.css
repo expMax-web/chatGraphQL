@@ -1,0 +1,36 @@
+.Container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+.UserMessageContainer {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+.Message {
+  padding: 12px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.UserMessage {
+  background-color: rgb(81, 163, 95);
+}
+.UserMessageContent {
+  color: rgb(255, 241, 241);
+}
+
+.NickName {
+  height: 46px;
+  width: 46px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: '0.5em';
+  border: 2px solid #e5e6ea;
+  background-color: rgba(202, 193, 193, 0.63);
+}
