@@ -1,0 +1,9 @@
+Данное приложение разработано для ознакомительных целей: 
+- разобраться как развернуть сервер grapql на nodeJS
+- разобраться как настроить схему и резолверы для сервера на grapql
+- разобраться как работают subscriptions в Apollo grapql
+- разработать приложение использующее описанные выше технологии
+
+В ходе разработки приложения, в качестве примеров было выбрано 2 источника: 
+- Официальная документация Apollo - https://www.apollographql.com/docs/react/data/subscriptions/
+- Доклад "Jack Herrington - Realtime Chat App | React, GraphQL & Websockets" - https://www.youtube.com/watch?v=E3NHd-PkLrQ (ссылка на приложение https://github.com/jherr/chat-o-matic)
