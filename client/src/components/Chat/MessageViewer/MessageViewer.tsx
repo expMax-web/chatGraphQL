@@ -10,12 +10,7 @@ import styles from './styles.module.css'
 
 export const MessageViewer: FC = () => {
 
-    // const { data: messages } = useSubscribeToMessages()
-
     const { subscribeToMore, data: messages } = useGetMessages()
-
-    console.log(messages);
-
 
     const { watch } = useFormContext<ChatFormValues>()
 
@@ -37,10 +32,6 @@ export const MessageViewer: FC = () => {
             }
         })
     }, [])
-
-
-
-
 
     return (
         <div className={styles.Container}>

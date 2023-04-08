@@ -14,14 +14,19 @@ export type Scalars = {
 
 export type CreateMessage = {
   __typename?: 'CreateMessage';
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  result?: Maybe<Scalars['String']>;
+  createMessage?: Maybe<CreateMessageOutput>;
 };
 
 export type CreateMessageInput = {
   content: Scalars['String'];
   user: Scalars['String'];
+};
+
+export type CreateMessageOutput = {
+  __typename?: 'CreateMessageOutput';
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  result?: Maybe<Scalars['String']>;
 };
 
 export type CreateMessageVariables = {
@@ -47,7 +52,7 @@ export type Message = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createMessage?: Maybe<CreateMessage>;
+  createMessage?: Maybe<CreateMessageOutput>;
 };
 
 

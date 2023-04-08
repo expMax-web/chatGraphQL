@@ -10,14 +10,16 @@ const { TextArea } = Input;
 
 export const MessageWorkspace = () => {
 
-    const { handleSubmit, control } = useFormContext<ChatFormValues>()
+    const { handleSubmit, control, reset, watch } = useFormContext<ChatFormValues>()
 
     const [createMessage] = useCreateMessage()
+
+    const user = watch("nickName")
 
     const sendMessage = async (data: ChatFormValues) => {
 
         if (!data.nickName || !data.message) {
-            //Предупредить об ошибке
+            //Предупредить об ошибке валидации
 
             return
         }
@@ -29,11 +31,18 @@ export const MessageWorkspace = () => {
                     content: data.message
                 }
             }
-        }) as any
+        })
+
+        if (createMessageResult.data?.createMessage?.result === "Ok") {
+            reset({
+                message: "",
+                nickName: user
+            })
+        }
 
 
         // Обработка ошибки
-        console.log(createMessageResult.data?.createMessage.result);
+        console.log(createMessageResult.data?.createMessage?.result);
     }
 
 

@@ -7,10 +7,14 @@ type Message {
   content: String!
 }
 
-type CreateMessage {
+type CreateMessageOutput {
   result: String
   id: ID!
   description: String
+}
+
+type CreateMessage {
+  createMessage: CreateMessageOutput
 }
 
 type GetMessages {
@@ -39,6 +43,6 @@ type Subscription {
 }
 
 type Mutation {
-  createMessage(request: CreateMessageInput): CreateMessage
+  createMessage(request: CreateMessageInput): CreateMessageOutput
 }
 `;
