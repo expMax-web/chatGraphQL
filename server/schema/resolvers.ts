@@ -10,6 +10,10 @@ import {
 
 const pubsub = new PubSub();
 
+const subscribes = [];
+
+const onMessagesUpdates = (fn) => subscribes.push(fn);
+
 pubsub.asyncIterator(["SEND_MESSAGE", "CREATE_MESSAGE"]);
 
 export const resolvers = {
@@ -18,15 +22,19 @@ export const resolvers = {
       return { messages: ALL_MESSAGES };
     },
   },
-  // Subscription: {
-  //   sendMessage: {
-  //     // More on pubsub below
-  //     subscribe: () => pubsub.asyncIterator(["SEND_MESSAGE"]),
-  //   },
-  //   messageCreated: {
-  //     subscribe: () => pubsub.asyncIterator(["CREATE_MESSAGE"]),
-  //   },
-  // },
+  Subscription: {
+    messages: {
+      subscribe: (parent, args, { pubsub }) => {
+        const channel = Math.random().toString(36).slice(2, 15);
+
+        onMessagesUpdates(() => pubsub.publish(channel, { ALL_MESSAGES }));
+
+        setTimeout(() => pubsub.publish(channel, { ALL_MESSAGES }), 0);
+
+        return pubsub.asyncIterator(channel);
+      },
+    },
+  },
 
   Mutation: {
     createMessage(
@@ -57,6 +65,8 @@ export const resolvers = {
         user: args.request.user,
       });
 
+      subscribes.forEach((fn) => fn());
+
       return {
         description: "Сообщение успешно отправлено",
         result: "Ok",
@@ -65,11 +75,3 @@ export const resolvers = {
     },
   },
 };
-
-//  Пример обработки входящего сообщения на сервере после отправки мутации с клиента
-// pubsub.publish("MESSAGE_CREATED", {
-//   messageCreated: {
-//     author: "Определить по id",
-//     content: "Текст сообщения",
-//   },
-// });
